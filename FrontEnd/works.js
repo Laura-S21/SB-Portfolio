@@ -4,12 +4,13 @@ async function generateGallery(){
     // Fetching the pictures from the API
     const response = await fetch("http://localhost:5678/api/works");
     const works = await response.json();
-    console.log(works);
+    // Fetching DOM element which contain all works
+    const gallerySection = document.querySelector(".gallery");
+    
     for (let i = 0; i < works.length; i++) {
 
         const work = works[i];
-        // Fetching DOM element which contain all works
-        const gallerySection = document.querySelector(".gallery");
+        
         // Creating the figure element wich contain the picture and the legend
         const workElement = document.createElement("figure");
         // Creating the img element for the picture
@@ -25,6 +26,37 @@ async function generateGallery(){
         workElement.appendChild(textElement);
 
     }
-}
+};
+
+async function workFilters() {
+    const response = await fetch("http://localhost:5678/api/categories");
+    const filters = await response.json();
+    // Fetching DOM element which contain all filters
+    const filtersSection = document.querySelector(".filters");
+
+    //Creating all button
+    const buttonAll = document.createElement("button");
+    buttonAll.className = "button all_button";
+    buttonAll.textContent = "Tous";
+
+    filtersSection.appendChild(buttonAll);
+
+    //Creating categories buttons
+    for (let i = 0; i < filters.length; i++) {
+
+        const filter = filters[i];
+        
+        // Creating the button element
+        const buttonElement = document.createElement("button");
+        buttonElement.className = "button";
+        buttonElement.dataset.id = filter.id;
+		buttonElement.textContent = filter.name;
+       
+        filtersSection.appendChild(buttonElement); 
+    }
+
+    
+};
   
 generateGallery();
+workFilters();
