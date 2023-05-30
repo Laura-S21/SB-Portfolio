@@ -28,6 +28,7 @@ async function generateGallery(){
     }
 };
 
+//Filters function
 async function workFilters() {
     const response = await fetch("http://localhost:5678/api/categories");
     const filters = await response.json();
@@ -54,8 +55,19 @@ async function workFilters() {
        
         filtersSection.appendChild(buttonElement); 
     }
+    //Changing the color of the active button
+    const buttons = document.getElementsByClassName("button");
+    for (let i = 0; i < buttons.length; i++) {
+        
+        buttons[i].addEventListener("click", function(event) {
+            const buttons = document.getElementsByClassName("button_selected");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("button_selected");
+            }
+            event.target.classList.add("button_selected");  
+        });
+    }
 
-    
 };
   
 generateGallery();
