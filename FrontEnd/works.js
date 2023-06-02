@@ -1,15 +1,41 @@
-// Function to generate the gallery
-async function generateGallery(){
+let works = [];
+let filteredWorks = [];
+let categories = [];
 
+async function getGategories() {
+    // Fetching the categories from the API
+    const response = await fetch("http://localhost:5678/api/categories");
+    const data = await response.json();
+    return data;
+}
+
+async function getWorks() {
     // Fetching the pictures from the API
     const response = await fetch("http://localhost:5678/api/works");
-    const works = await response.json();
+    const data = await response.json();
+    return data;
+}
+
+// Function to generate the filters
+async function generateCategories(categories){
+    // Fetching DOM element which contain all works
+    const categoriesSection = document.querySelector(".filters");
+    categoriesSection.innerHTML = "";
+    for (let i = 0; i < works.length; i++) {
+        // on genere les filtres
+    }
+};
+
+// Function to generate the gallery
+async function generateGallery() {
+
     // Fetching DOM element which contain all works
     const gallerySection = document.querySelector(".gallery");
+    gallerySection.innerHTML = "";
     
-    for (let i = 0; i < works.length; i++) {
+    for (let i = 0; i <filteredWorks.length; i++) {
 
-        const work = works[i];
+        const work = filteredWorks[i];
         
         // Creating the figure element wich contain the picture and the legend
         const workElement = document.createElement("figure");
@@ -26,12 +52,38 @@ async function generateGallery(){
         workElement.appendChild(textElement);
 
     }
-};
+}
 
-//Filters function
-async function workFilters() {
-    const response = await fetch("http://localhost:5678/api/categories");
-    const filters = await response.json();
+// Add event listener on all filter buttons
+async function addButtonsEvents() {
+    const btns = document.querySelectorAll(".button");
+    let clickEvent = () => {
+        console.log("working event listener")
+    }
+    btns.forEach((item) => {
+        item.addEventListener("click", clickEvent)
+    })
+}
+
+//async function filterWorks(category) {
+async function filterWorks() {
+    console.log("boutonfiltre");
+    /*filteredWorks = []
+
+    for(let i = 0; i < works.length; i++) {
+        const work = works[i]
+
+        if(work.name === category) {
+            filteredWorks.push(work);
+        }
+    }
+
+    generateGallery();*/
+
+}
+
+// Generating filter buttons
+async function generateFilterButtons() {
     // Fetching DOM element which contain all filters
     const filtersSection = document.querySelector(".filters");
 
@@ -43,9 +95,9 @@ async function workFilters() {
     filtersSection.appendChild(buttonAll);
 
     //Creating categories buttons
-    for (let i = 0; i < filters.length; i++) {
+    for (let i = 0; i < categories.length; i++) {
 
-        const filter = filters[i];
+        const filter = categories[i];
         
         // Creating the button element
         const buttonElement = document.createElement("button");
@@ -67,8 +119,24 @@ async function workFilters() {
             event.target.classList.add("button_selected");  
         });
     }
-
 };
-  
-generateGallery();
-workFilters();
+
+async function main () {
+    categories = await getGategories();
+
+    await generateCategories();
+    
+    works = await getWorks();
+    filteredWorks = works;
+
+    generateGallery();
+
+    generateFilterButtons();
+
+    addButtonsEvents();
+
+    
+
+}
+
+main();
