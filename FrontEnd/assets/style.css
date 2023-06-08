@@ -227,6 +227,13 @@ footer nav ul {
 	font-weight: 600;
 }
 
+#form #error-message {
+	color: red;
+	border: none;
+	margin-top: 15px;
+	display: none;
+}
+
 #form {
 	margin-top: 10em;
 	display: flex;
