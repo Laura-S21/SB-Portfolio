@@ -1,4 +1,5 @@
 import { getGategories, getWorks } from "./api.js";
+import {} from "./modal.js";
 
 let works = [];
 let filteredWorks = [];
