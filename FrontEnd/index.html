@@ -13,7 +13,7 @@
 	<script type="module" src="index.js"></script>
 </head>
 <body>
-	<div id="edition" class="edit">
+	<div id="edition" class="edit hidden">
 		<i class="fa-regular fa-pen-to-square"></i>
 		<p>Mode édition</p>
 		<button id="publish" type="submit">publier les changements</button>
@@ -25,7 +25,7 @@
 			<li><a href="#portfolio">projets</a></li>
 			<li><a href="#contact">contact</a></li>
 			<li id="login"><a href="./login.html">login</a></li>
-			<li id="logout" class="edit"><a href="./login.html">logout</a></li>
+			<li id="logout" class="edit hidden"><a href="">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -34,7 +34,7 @@
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
-			<figcaption id="edit-img" class="edit">
+			<figcaption id="edit-img" class="edit hidden">
 				<i class="fa-regular fa-pen-to-square"></i>
 				<p>Modifier</p>
 			</figcaption>
@@ -49,7 +49,7 @@
 	<section id="portfolio">
 		<div id="project-title">
 		<h2>Mes Projets</h2>
-			<div class="edit-projects edit">
+			<div class="edit-projects edit hidden">
 				<i class="fa-regular fa-pen-to-square"></i>
 				<a href="#modal" class="js-modal">Modifier</a>
 			</div>
@@ -74,13 +74,31 @@
 	</section>
 </main>
 <aside id="modal" class="modal" aria-hidden="true" aria-modal="false" role="dialog" style="display: none;">
-	<div class="modal-wrapper js-modal-stop">
+	<div id="first-page" class="modal-wrapper js-modal-stop photo-gallery" >
 		<i class="fa-solid fa-xmark js-close-modal"></i>
 		<p class="modal-title">Galerie photo</p>
 		<div id="modal-gallery"></div>
 		<div class="grey-line"></div>
-		<input type="submit" value="Ajouter une photo" class="add-img">
+		<input type="button" value="Ajouter une photo" class="add-img">
 		<p class="delete-gallery">Supprimer la galerie</p>
+	</div>
+	<div id="sec-page" class="modal-wrapper js-modal-stop add-photo hidden">
+		<i class="fa-solid fa-arrow-left-long js-back"></i>
+		<i class="fa-solid fa-xmark js-close-modal"></i>
+		<p class="modal-title">Ajout photo</p>
+		<div class="submit-area"></div>
+		<i class="fa-regular fa-image picture-icon"></i>
+		<label class="file-button">
+			<input type="file"/>
+			+ Ajouter photo
+		</label>
+		<p class="img-size">jpg, png : 4mo max</p>
+		<label for="title" class="title-label">Titre</label>
+		<input type="text" name="title" class="title-input">
+		<label for="category" class="category-label">Catégorie</label>
+		<select name="category" id="categories-names"></select>
+		<div class="grey-line"></div>
+		<input type="submit" value="Valider" class="submit-img">
 	</div>
 </aside>
 <footer>

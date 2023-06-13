@@ -29,5 +29,6 @@ loginButton.addEventListener("click", async function(event) {
     }
     const result = await response.json();
     window.localStorage.setItem("token", result.token);
+    window.localStorage.setItem("userId", result.userId);
     window.location.replace("./index.html");
 })

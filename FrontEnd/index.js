@@ -18,6 +18,7 @@ async function generateGallery() {
         
         // Creating the figure element wich contain the picture and the legend
         const workElement = document.createElement("figure");
+        workElement.dataset.workId = work.id;
         // Creating the img element for the picture
         const pictureElement = document.createElement("img");
         pictureElement.src = work.imageUrl;
@@ -78,29 +79,59 @@ async function generateFilterButtons() {
     //Creating categories buttons
     for (let i = 0; i < categories.length; i++) {
 
-        const filter = categories[i];
+      const filter = categories[i];
         
-        // Creating the button element
-        const buttonElement = document.createElement("button");
-        buttonElement.className = "button";
-        buttonElement.dataset.id = filter.id;
-		buttonElement.textContent = filter.name;
+      // Creating the button element
+      const buttonElement = document.createElement("button");
+      buttonElement.className = "button";
+      buttonElement.dataset.id = filter.id;
+		  buttonElement.textContent = filter.name;
        
-        filtersSection.appendChild(buttonElement); 
+      filtersSection.appendChild(buttonElement);  
     }
 };
 
+// Show the edition mode when the user is connected
+function editionMode() {
+
+  const token = window.localStorage.getItem("token");
+  if (token == null) {
+    return
+  }
+  const editElements = document.querySelectorAll(".edit");
+  const loginLink = document.querySelector("#login");
+
+  editElements.forEach((item) => {
+      item.classList.remove("hidden")
+  })
+    loginLink.classList.add("hidden")
+}
+
+// Hide the edition mode
+function editionModeOff() {
+  const logoutButton = document.querySelector("#logout");
+
+  logoutButton.addEventListener('click', function() {
+    window.localStorage.removeItem("token");
+  })
+}
+
+
 async function main () {
-    categories = await getGategories();
+
+  editionMode()
+  editionModeOff()
+
+  categories = await getGategories();
     
-    works = await getWorks();
-    filteredWorks = works;
+  works = await getWorks();
+  filteredWorks = works;
 
-    generateGallery();
+  generateGallery();
 
-    await generateFilterButtons();
+  await generateFilterButtons();
 
-    addButtonsEvents();
+  addButtonsEvents();
 
 }
 
