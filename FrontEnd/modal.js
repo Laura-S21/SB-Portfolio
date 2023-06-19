@@ -1,9 +1,9 @@
-import {remWorks, sendWork} from "./api.js";
+import { remWorks, sendWork } from "./api.js";
 
 let modal = null;
 
 // Function to open the modal
-export const openModal = function(event) {
+export const openModal = function (event) {
     event.preventDefault()
     const target = document.querySelector(event.target.getAttribute('href'))
     target.style.display = null
@@ -27,7 +27,7 @@ export const openModal = function(event) {
 }
 
 // Function to close the modal
-const closeModal = function(event) {
+const closeModal = function (event) {
     if (modal === null) return
     event.preventDefault()
     modal.style.display = "none"
@@ -44,7 +44,7 @@ const closeModal = function(event) {
 }
 
 // Function to prevent the closing of the modal when clicked
-const stopPropagation = function(event) {
+const stopPropagation = function (event) {
     event.stopPropagation()
 }
 
@@ -55,10 +55,10 @@ export function generateModalGallery(galleryWorks) {
     const modalGallery = document.querySelector('#modal-gallery')
     modalGallery.innerHTML = "";
 
-    for (let i = 0; i <galleryWorks.length; i++) {
+    for (let i = 0; i < galleryWorks.length; i++) {
 
         const work = galleryWorks[i];
-        
+
         const modalWork = document.createElement("div");
         modalWork.className = "modal-work";
         modalWork.dataset.workId = work.id;
@@ -67,7 +67,7 @@ export function generateModalGallery(galleryWorks) {
         modalPicture.src = work.imageUrl;
         modalPicture.alt = work.title;
         modalPicture.className = "modal-img";
-        
+
         const modalText = document.createElement("p");
         modalText.innerText = "éditer";
         modalText.className = "modal-text";
@@ -85,7 +85,8 @@ export function generateModalGallery(galleryWorks) {
         modalWork.appendChild(modalText);
         modalWork.appendChild(trashIcon);
         modalWork.appendChild(resizeIcon);
-}}
+    }
+}
 
 // Open the window to add pictures
 function openAddPictureWindow() {
@@ -93,7 +94,7 @@ function openAddPictureWindow() {
     const firstPage = document.querySelector("#first-page");
     const secPage = document.querySelector("#sec-page");
 
-    addButton.addEventListener('click', function() {
+    addButton.addEventListener('click', function () {
         firstPage.classList.add("hidden");
         secPage.classList.remove("hidden");
     })
@@ -105,7 +106,7 @@ function closeAddPictureWindow() {
     const firstPage = document.querySelector("#first-page");
     const secPage = document.querySelector("#sec-page");
 
-    backButton.addEventListener('click', function() {
+    backButton.addEventListener('click', function () {
         firstPage.classList.remove("hidden");
         secPage.classList.add("hidden");
     })
@@ -113,22 +114,23 @@ function closeAddPictureWindow() {
 
 // Delete works
 export async function trashButton(item) {
-            // Get id from parent element (work)
-            const workId = item.parentElement.dataset.workId;
-            // Response from the API
-            return await remWorks(workId)
-        }
+    // Get id from parent element (work)
+    const workId = item.parentElement.dataset.workId;
+    // Response from the API
+    return await remWorks(workId)
+}
 
 // Upload picture
 const fileInput = document.querySelector(".file-input");
 const fileOutput = document.querySelector(".file-output");
 let uploadImages = []
-fileInput.addEventListener("change", function() {
+fileInput.addEventListener("change", function () {
     const file = fileInput.files
     uploadImages.push(file[0])
     displayImages()
 })
 
+// Creating elments for the picture to add
 function displayImages() {
     let images = ""
     uploadImages.forEach((image) => {
@@ -152,7 +154,7 @@ export function categoriesSelector(categories) {
         newOption.setAttribute('value', categories[i].id);
         selector.appendChild(newOption)
     }
-       
+
 }
 
 // Add a picture
@@ -161,31 +163,32 @@ export async function addWork() {
     const title = document.querySelector(".title-input");
     // Get categories input
     const imgCategory = document.querySelector("#categories-names");
-        // Form data to send data to the API
-        let workData = new FormData();
-        workData.append('image', fileInput.files[0]);
-        workData.append('title', title.value);
-        workData.append('category', imgCategory.value);
-        workData.append('userId', window.localStorage.getItem("userId"))
+    // Form data to send data to the API
+    let workData = new FormData();
+    workData.append('image', fileInput.files[0]);
+    workData.append('title', title.value);
+    workData.append('category', imgCategory.value);
+    workData.append('userId', window.localStorage.getItem("userId"))
 
-        return await sendWork(workData)
+    return await sendWork(workData)
 }
 
+// Reset the form after adding à new work
 export function resetForm() {
     fileInput.value = "";
     fileOutput.innerHTML = "";
     const spec = document.querySelector(".submit-area");
     spec.classList.remove("hidden");
-    document.querySelector(".title-input").value =""
-    document.querySelector("#categories-names").selectedIndex =0
+    document.querySelector(".title-input").value = ""
+    document.querySelector("#categories-names").selectedIndex = 0
 }
 
 
 async function modalMain() {
 
-   openAddPictureWindow();
+    openAddPictureWindow();
 
-   closeAddPictureWindow();
+    closeAddPictureWindow();
 
 }
 

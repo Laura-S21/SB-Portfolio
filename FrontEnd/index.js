@@ -94,7 +94,7 @@ async function generateFilterButtons() {
 
 // Show the edition mode when the user is connected
 function editionMode() {
-
+  //Get token from local storage
   const token = window.localStorage.getItem("token");
   if (token == null) {
     return

@@ -12,23 +12,36 @@ export async function getWorks() {
     return data;
 }
 
+export async function getLogin(argEmail, argPassword) {
+    const response = await fetch("http://localhost:5678/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            email: argEmail,
+            password: argPassword,
+        })
+    });
+
+    return response
+}
+
 // API call to delete works
 export async function remWorks(workId) {
-    const response = await fetch(`http://localhost:5678/api/works/${workId}` , {
-         method: "DELETE",
-         headers: { "Authorization": "Bearer "+window.localStorage.getItem("token")},
-         body: {userId: window.localStorage.getItem("userId")} 
-     });
-     
-     return response
- }
+    const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+        method: "DELETE",
+        headers: { "Authorization": "Bearer " + window.localStorage.getItem("token") },
+        body: { userId: window.localStorage.getItem("userId") }
+    });
 
- export async function sendWork(workData) {
+    return response
+}
+
+export async function sendWork(workData) {
     const response = await fetch("http://localhost:5678/api/works", {
-         method: "POST",
-         headers: { "Authorization": "Bearer "+window.localStorage.getItem("token")},
-         body: workData
-     });
- 
-     return response
- }
+        method: "POST",
+        headers: { "Authorization": "Bearer " + window.localStorage.getItem("token") },
+        body: workData
+    });
+
+    return response
+}
